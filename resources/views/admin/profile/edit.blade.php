@@ -1,12 +1,13 @@
-<!DOCTYPE html>
-<html lang="ja" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <mata http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="witch=device-witch, initial-scale=1">
-    <title>MyNews</title>
-  </head>
-  <body>
-    <h1>プロフィール編集画面</h1>
-  </body>
-</html>
+@extends('layouts.profile')
+
+@section('title', 'Myプロフイール編集')
+
+@section('content')
+      <div class="container">
+         <div class="row">
+            <div class="col-md-8 mx-auto">
+               <h2>Myプロフィール編集</h2>
+            </div>
+         </div>
+      </div>
+@endsection
