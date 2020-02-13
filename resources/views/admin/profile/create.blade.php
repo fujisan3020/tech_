@@ -7,7 +7,7 @@
          <div class="row">
             <div class="col-md-8 mx-auto">
                <h2>Myプロフィール作成</h2>
-               <form action="{{ action('Admin\profileController@create') }}" method="post">
+               <form action="{{ action('Admin\ProfileController@create') }}" method="post">
 
                    @if (count($errors) > 0)
                      <ul>
@@ -23,21 +23,21 @@
                       </div>
                    </div>
                    <div class="form-group row">
-                      <label class="col-md-2" for="sex">性別</label>
+                      <label class="col-md-2" for="gender">性別</label>
                       <div class="col-md-10">
-                        <input class="form-control" type="text" name="sex">{{ old('sex') }}
+                        <input class="form-control" type="text" name="gender">{{ old('gender') }}
                       </div>
                    </div>
                    <div class="form-group row">
                       <label class="col-md-2" for="hobby">趣味</label>
                       <div class="col-md-10">
-                        <textarea class="form-control" name=="hobby" rows="20">{{ old('hobby') }}</textarea>
+                        <textarea class="form-control" name=="hobby" rows="4">{{ old('hobby') }}</textarea>
                       </div>
                    </div>
                    <div class="form-group row">
                       <label class="col-md-2" for="introduction">自己紹介欄</label>
                       <div class="col-md-10">
-                        <textarea class="form-control" name="introduction" rows="20" role="20">
+                        <textarea class="form-control" name="introduction" rows="10">
                           {{ old('introduction') }}</textarea>
                       </div>
                    </div>
