@@ -27,9 +27,6 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function() {
   Route::post('profile/create', 'Admin\ProfileController@create');
   Route::get('profile/edit', 'Admin\ProfileController@edit');
   Route::post('profile/edit', 'Admin\ProfileController@update');
-
-  Route::get('profile/edit', 'Admin\profileController@edit');
-  Route::post('profile/edit', 'Admin\profileController@update');
 });
 
 Route::get('XXX', 'AAAController@bbb');
