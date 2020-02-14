@@ -13,6 +13,7 @@ class NewsController extends Controller {
       return view('admin.news.create');
     }
 
+    // ニュースの作成
     // Requestクラスはユーザーから送られる情報を全て含んでいるオブジェクト を取得することができ、これらを$requestに代入して使用している。
     public function create(Request $request) {
 
@@ -49,4 +50,63 @@ class NewsController extends Controller {
 
       return redirect('admin/news/create');
     }
+
+
+    // 投稿したニュース一覧を表示
+    public function index(Request $request) {
+      $cond_title = $request->cond_title;
+      if ($cond_title != '') {
+        // where()メソッド:第一引数で指定したtitleカラムで、
+        // 第二引数で指定した$cond_title(ユーザが入力した文字)に一致する
+        // レコードを全て取得する
+        $posts = News::where('title', $cond_title)->get();
+      } else {
+        $posts = News::all();
+      }
+      // index.blade.phpのファイルで取得したレコード($post)と、
+      // ユーザーが入力した文字列($cond_title)を渡し、ページを開く
+      return view('admin.news.index', ['posts' => $posts, 'cond_title' => $cond_title]);
+      }
+
+
+      public function edit(Request $request) {
+        //New Modelからデータを取得する
+        $news = News::find($request->id);
+        if (empty($news)) {
+          abort(404);
+        }
+        return view('admin.news.edit', ['news_form' => $news]);
+      }
+
+
+      // 既存ニュースの編集
+      public function update(Request $request) {
+        $this->validate($request, News::$rules);
+        $news = News::find($request->id);
+        // 送信されてきたフォームデータを格納する
+        $news_form = $request->all();
+        if (isset($news_form['image'])) {
+          $path = $request->file('image')->store('public/image');
+          $news->image_path = basename($path);
+          unset($news_form['image']);
+          // strcmp:第一引数と第二引数の文字列を比較する
+          // 第一引数 > 第二引数ならば正の数を、第一引数 < 第二引数ならば負の数を、等しければ0を返す
+        } elseif(0 == strcmp($request->remove, 'true')) {
+          $news->imege_path = null;
+        }
+        unset($news_form['_token']);
+        unset($news_form['remove']);
+
+        $news->fill($news_form)->save();
+
+        return redirect('admin/news');
+      }
+
+
+      public function delete(Request $request) {
+        $news = News::find($request->id);
+        // 削除する
+        $news->delete();
+        return redirect('admin/news/');
+      }
 }

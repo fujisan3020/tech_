@@ -151,8 +151,7 @@ return [
       'name' => '名前',
       'gender' => '性別',
       'hobby' => '趣味',
-      'introduction' => '自己紹介欄',
-      ''
+      'introduction' => '自己紹介欄'
     ],
 
 ];
