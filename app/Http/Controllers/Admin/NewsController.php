@@ -22,7 +22,7 @@ class NewsController extends Controller {
       // Varidationを行う
       // validateメソッドは、の第１引数にリクエストのオブジェクトを渡し、$request->all()を判定して、問題があるなら、エラーメッセージと入力値とともに直前のページに戻る機能を持っている。第二引数は、カラムにどんなバリデーションをかけるかを指定することができる。
       $this->validate($request, News::$rules);
-      // News = Newsテーブル?
+      // News = Newsテーブル? , $new = newレコード?
       $news = new News;
       // formで入力されたユーザー情報を全て取得、格納
       $form = $request->all();
@@ -58,13 +58,16 @@ class NewsController extends Controller {
     public function index(Request $request) {
       $cond_title = $request->cond_title;
       if ($cond_title != '') {
+        // 検索されたら検索結果を取得する
         // where()メソッド:第一引数で指定したtitleカラムで、
         // 第二引数で指定した$cond_title(ユーザが入力した文字)に一致する
         // レコードを全て取得する
         $posts = News::where('title', $cond_title)->get();
       } else {
+        // それ以外はすべてのニュースを取得する
         $posts = News::all();
       }
+      
       // index.blade.phpのファイルで取得したレコード($post)と、
       // ユーザーが入力した文字列($cond_title)を渡し、ページを開く
       return view('admin.news.index', ['posts' => $posts, 'cond_title' => $cond_title]);
