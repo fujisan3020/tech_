@@ -7,7 +7,7 @@
          <div class="row">
             <div class="col-md-8 mx-auto">
                <h2>Myプロフィール編集</h2>
-               <form action="{{ action('Admin\NewsController@update') }}" method="post">
+               <form action="{{ action('Admin\ProfileController@update') }}" method="post">
                    @if (count($errors) > 0)
                      <ul>
                         @foreach ($errors->all() as $e)

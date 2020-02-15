@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 
 // 以下を追記することでNews Modelが扱えるようになる
 use App\News;
+use App\History;
+use Carbon\Carbon;
 
 class NewsController extends Controller {
     public function add() {
@@ -85,21 +87,27 @@ class NewsController extends Controller {
         $news = News::find($request->id);
         // 送信されてきたフォームデータを格納する
         $news_form = $request->all();
-        if (isset($news_form['image'])) {
-          $path = $request->file('image')->store('public/image');
-          $news->image_path = basename($path);
-          unset($news_form['image']);
-          // strcmp:第一引数と第二引数の文字列を比較する
-          // 第一引数 > 第二引数ならば正の数を、第一引数 < 第二引数ならば負の数を、等しければ0を返す
-        } elseif(0 == strcmp($request->remove, 'true')) {
-          $news->imege_path = null;
+        if ($request->file('image')) {
+            $path = $request->file('image')->store('public/image');
+            $news_form['image_path'] = basename($path);
+        } elseif($request->input('remove')) {
+            $news->imege_path = null;
+        } else {
+            $news_form['image_path']  = $news->image_path;
         }
-        unset($news_form['_token']);
-        unset($news_form['remove']);
 
+        unset($news_form['_token']);
+        unset($news_form['image']);
+        unset($news_form['remove']);
         $news->fill($news_form)->save();
 
-        return redirect('admin/news');
+
+        $history = new History;
+        $history->news_id = $news->id;
+        $history->edited_at = Carbon::now();
+        $history->save();
+
+        return redirect('admin/news/');
       }
 
 
