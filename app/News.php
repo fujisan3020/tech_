@@ -13,6 +13,8 @@ class News extends Model {
     );
 
     public function histories() {
+
+      // news(親)テーブルに関連づいている(子)historiesテーブルを全て取得するというメソッド
       return $this->hasMany('App\History');
     }
 }

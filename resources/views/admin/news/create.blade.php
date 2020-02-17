@@ -19,7 +19,8 @@
                    <div class="form-group row">
                       <label class="col-md-2" for="title">タイトル</label>
                       <div class="col-md-10">
-                         <input class="form-control" type="text"  name="title" value="{{ old('title') }}">
+                        <!-- {{ old('') }} : 一つ前に入力された値が入る -->
+                         <input class="form-control" type="text" name="title" value="{{ old('title') }}">
                       </div>
                    </div>
                    <div class="form-group row">

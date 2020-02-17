@@ -12,11 +12,14 @@ use Carbon\Carbon;
 
 class NewsController extends Controller {
     public function add() {
+      // return view('')だとRoutingを経由しないので、
+      // Controllerのメッソドが実行されない
       return view('admin.news.create');
     }
 
     // ニュースの作成
     // Requestクラスはユーザーから送られる情報を全て含んでいるオブジェクト を取得することができ、これらを$requestに代入して使用している。
+    // Requestクラス: formで入力された情報を扱うクラス
     public function create(Request $request) {
 
       // Varidationを行う
@@ -47,9 +50,11 @@ class NewsController extends Controller {
       unset($form{'image'});
 
       // データベースに保存する
+      // Newsモデルのプロパティ全てに値を設定する
       $news->fill($form);
       $news->save();
 
+      // redirectはgetで送られる
       return redirect('admin/news/create');
     }
 
@@ -67,7 +72,7 @@ class NewsController extends Controller {
         // それ以外はすべてのニュースを取得する
         $posts = News::all();
       }
-      
+
       // index.blade.phpのファイルで取得したレコード($post)と、
       // ユーザーが入力した文字列($cond_title)を渡し、ページを開く
       return view('admin.news.index', ['posts' => $posts, 'cond_title' => $cond_title]);
@@ -75,7 +80,7 @@ class NewsController extends Controller {
 
 
       public function edit(Request $request) {
-        //New Modelからデータを取得する
+        //「IDによるレコード検索」を行う
         $news = News::find($request->id);
         if (empty($news)) {
           abort(404);
@@ -107,6 +112,7 @@ class NewsController extends Controller {
 
         $history = new History;
         $history->news_id = $news->id;
+        // Carbonは日時を扱うためのライブラリで、Carbon::now()では現在時刻を取得している
         $history->edited_at = Carbon::now();
         $history->save();
 
