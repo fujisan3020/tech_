@@ -38,13 +38,13 @@ class NewsController extends Controller {
         // $pathの中には「public/image/ハッシュ化されたファイル名」が入っている
         // $path = $request->file('image')->store('public/image');
 
-        $path = Storege::disk('s3')->putFile('/', $form['imege'], 'public');
+        $path = Storage::disk('s3')->putFile('/', $form['imege'], 'public');
 
         // newsテーブルのimage_pathには、ファイル名のみを保存させたい。
         // そこで、パスではなくファイル名だけ取得するメソッド、basenameを使用
         // $news->image_path = basename($path);
 
-        $news->image_path = Storege::disk('s3')->url($path);
+        $news->image_path = Storage::disk('s3')->url($path);
       } else {
         $news->image_path = null;
       }
@@ -104,9 +104,9 @@ class NewsController extends Controller {
         $news_form = $request->all();
         if ($request->file('image')) {
             // $path = $request->file('image')->store('public/image');
-            $path = Storege::disk('s3')->putFile('/', $form['imege'], 'public');
+            $path = Storage::disk('s3')->putFile('/', $form['imege'], 'public');
             // $news_form['image_path'] = basename($path);
-            $news->image_path = Storege::disk('s3')->url($path);
+            $news->image_path = Storage::disk('s3')->url($path);
         } elseif($request->input('remove')) {
             $news->imege_path = null;
         } else {
