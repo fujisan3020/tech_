@@ -9,7 +9,7 @@ use App\Http\Controllers\Controller;
 use App\News;
 use App\History;
 use Carbon\Carbon;
-use Storege;
+use Storage;
 
 class NewsController extends Controller {
     public function add() {
