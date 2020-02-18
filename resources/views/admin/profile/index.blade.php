@@ -4,6 +4,9 @@
 @section('content')
     <div class="container">
         <div class="row">
+          <div class="col-md-4">
+              <a href="{{ action('Admin\ProfileController@add') }}" role="button" class="btn btn-primary">プロフィール新規作成</a>
+          </div>
             <h2>プロフィール</h2>
         </div>
         <div class="row">

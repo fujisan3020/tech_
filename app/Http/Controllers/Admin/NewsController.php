@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\News;
 use App\History;
 use Carbon\Carbon;
+use Storege;
 
 class NewsController extends Controller {
     public function add() {
@@ -35,10 +36,15 @@ class NewsController extends Controller {
         // file('image'): 画像をアップロードするメソッド
         // sotre('public/image'): どこのフォルダにファイルを保存するか、パスを指定するメソッド
         // $pathの中には「public/image/ハッシュ化されたファイル名」が入っている
-        $path = $request->file('image')->store('public/image');
+        // $path = $request->file('image')->store('public/image');
+
+        $path = Storege::disk('s3')->putFile('/', $form['imege'], 'public');
+
         // newsテーブルのimage_pathには、ファイル名のみを保存させたい。
         // そこで、パスではなくファイル名だけ取得するメソッド、basenameを使用
-        $news->image_path = basename($path);
+        // $news->image_path = basename($path);
+
+        $news->image_path = Storege::disk('s3')->url($path);
       } else {
         $news->image_path = null;
       }
@@ -97,8 +103,10 @@ class NewsController extends Controller {
         // 送信されてきたフォームデータを格納する
         $news_form = $request->all();
         if ($request->file('image')) {
-            $path = $request->file('image')->store('public/image');
-            $news_form['image_path'] = basename($path);
+            // $path = $request->file('image')->store('public/image');
+            $path = Storege::disk('s3')->putFile('/', $form['imege'], 'public');
+            // $news_form['image_path'] = basename($path);
+            $news->image_path = Storege::disk('s3')->url($path);
         } elseif($request->input('remove')) {
             $news->imege_path = null;
         } else {
