@@ -69,7 +69,7 @@ class NewsController extends Controller {
         // レコードを全て取得する
         $posts = News::where('title', $cond_title)->get();
       } else {
-        // それ以外はすべてのニュースを取得する
+        // それ以外はすべてのnewsテーブルを取得する
         $posts = News::all();
       }
 
@@ -85,6 +85,7 @@ class NewsController extends Controller {
         if (empty($news)) {
           abort(404);
         }
+        // viewメソッドの第二引数は、['渡す先での変数名' => '今回渡す変数名']となる。渡す先での変数名は$がついていないが、viewファイルでは$をつけて使う必要がある。また、=> は連想配列で右から左に流れるイメージがあるが、viewメソッドでは逆の意味になるので注意!!
         return view('admin.news.edit', ['news_form' => $news]);
       }
 
@@ -108,6 +109,7 @@ class NewsController extends Controller {
         unset($news_form['image']);
         unset($news_form['remove']);
         $news->fill($news_form)->save();
+        // $news_formにはnewsレコードが入っている
 
 
         $history = new History;
