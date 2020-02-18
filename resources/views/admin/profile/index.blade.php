@@ -40,7 +40,7 @@
                         </tbody>
                     </table>
                     <div class="col-md-4">
-                        <a href="{{ action('Admin\NewsController@add') }}" role="button" class="btn btn-primary">新規作成</a>
+                        <a href="{{ action('Admin\NewsController@add') }}" role="button" class="btn btn-primary">ニュース新規作成</a>
                     </div>
                 </div>
             </div>
