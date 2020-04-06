@@ -11,6 +11,12 @@
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
 
+                           <div class="form-group row">
+                             <label for="github" class="col-md-6 col-form-label text-md-right">
+                               <a href="{{ url('login/github') }}">Login with GitHub</a>
+                             </label>
+                           </div>
+
                         <div class="form-group row">
                             <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('messages.E-Mail Address') }}</label>
 

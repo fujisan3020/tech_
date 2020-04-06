@@ -42,7 +42,7 @@ class NewsController extends Controller {
 
         // newsテーブルのimage_pathには、ファイル名のみを保存させたい。
         // そこで、パスではなくファイル名だけ取得するメソッド、basenameを使用
-        // $news->image_path = basename($path);
+        $news->image_path = basename($path);
 
         $news->image_path = Storage::disk('s3')->url($path);
       } else {
@@ -51,9 +51,9 @@ class NewsController extends Controller {
 
       // 「_token」と「image」は不要なので、
       // フォームから送信されてきた_tokenを削除する
-      unset($form{'_token'});
+      unset($form['_token']);
       // フォームから送信されてきたimageを削除する
-      unset($form{'image'});
+      unset($form['image']);
 
       // データベースに保存する
       // Newsモデルのプロパティ全てに値を設定する
